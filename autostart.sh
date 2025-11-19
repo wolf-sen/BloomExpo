@@ -2,7 +2,7 @@
 set -euo pipefail
 echo "=============="
 echo "Starting Bloom"
-echo "Version 0.1a"
+echo "Version 0.1b"
 echo "=============="
 
 # run from the script's directory (repo root)
