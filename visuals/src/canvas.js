@@ -3,6 +3,7 @@ import config from './config.js';
 import colors from './colors.js';
 import background from './background.js';
 import blossom from './blossom.js';
+import frame from './frame.js';
 
 
 
@@ -130,6 +131,7 @@ q.setup = function setup() {
 	q.frameRate(config.frameLimit);
 	background.setContext(q);
 	blossom.setContext(q);
+	frame.setContext(q);
 };
 
 q.windowResized = function windowResized() {
@@ -185,8 +187,7 @@ q.draw = function draw() {
 	background.draw(palette.background, palette.backgroundSecondary, drumEnv * config.backgroundGlowIntensity);
 	blossom.draw(q.width/2, q.height/2, deltaTime, globalSpeed, amount)
 	
-	q.fill(palette.accent)
-	q.ellipse(q.mouseX, q.mouseY, 80, 80);
+	frame.draw([50, 50, 50, 255]);
 	
 	//debugging
 	if(config.oscDebugging) {
