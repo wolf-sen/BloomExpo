@@ -33,14 +33,12 @@ Thumbs.db
 *~
 
 # --- Ableton Live ---
-**/Samples/
-**/samples/
 **/Recorded/
 **/Recordings/
 **/Renders/
 **/Render/
 **/Exported/
-**/Backups/
+**/Backup/
 
 
 # --- misc utility files ---
