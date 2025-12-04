@@ -3,17 +3,19 @@ import oscClient from './oscClient';
 
 let q = null;
 let fontLoaded = false;
+let speed = 0;
 
 function setContext(qInstance) {
 	q = qInstance;
 }
 
-function draw() {
+function draw(iSpeed) {
 	if (!q) return;
+	if (iSpeed) speed = iSpeed;
 	const palette = colors.get();
 	const frameColor = palette.frame.rgb ?? [50, 50, 50];
 	const textColor = palette.text.rgb ?? [255, 255, 255];
-
+	
 	const frameThickness = q.width * 0.02;
 	const sideBar = 180;
 	const topStart = q.width * 0.2;
@@ -21,7 +23,7 @@ function draw() {
 	const topHeight = frameThickness;
 	const sideY = q.height * 0.45;
 	const r = frameThickness * 0.8;
-
+	
 	const points = [
 		{ x: topStart - frameThickness, y: 0 },
 		{ x: topEnd, y: 0 },
@@ -32,7 +34,7 @@ function draw() {
 		{ x: topStart, y: topHeight }
 	];
 	const radii = [r, 0, r, r, r, r, 0];
-
+	
 	const ctx = q.drawingContext;
 	ctx.save();
 	ctx.fillStyle = `rgba(${frameColor[0]},${frameColor[1]},${frameColor[2]},${(frameColor[3] ?? 255) / 255})`;
@@ -51,7 +53,7 @@ function draw() {
 	ctx.closePath();
 	ctx.fill();
 	ctx.restore();
-
+	
 	q.push();
 	q.translate(q.width - sideBar + 24, sideY - 24);
 	q.rotate(q.radians(-90));
@@ -68,10 +70,28 @@ function textDraw(fillColor = [255, 255, 255]) {
 	q.push();
 	q.fill(fillColor);
 	q.textAlign(q.LEFT, q.TOP);
+	q.textLeading(34);
 	q.textSize(57);
 	q.text('Bloom', 640, 0);
 	q.textSize(24);
 	q.text('Experemental \nDesign CVD01', 640, 68);
+	q.text("FR:" + Math.floor(q.frameRate()), 200, 0);
+	q.text("Env:" + Math.floor(oscClient.getState().cv.drumEnv), 200, 34);
+	q.text("SPD:" + Math.floor(speed), 200, 68);
+	q.text("Notes:", 330, 0)
+	let active = oscClient.getTrackNotes('main')
+	let NoteStr = "";
+	for (let i = 0; i < active.length; i++) {
+		if (i < 15) {
+			NoteStr += String(active[i]);
+			NoteStr += "  ";
+		}
+		// add line break every 5 items
+		if (i !== 0 && (i + 1) % 5 === 0) {
+			NoteStr += "\n";
+		}
+	}
+	q.text(NoteStr, 330, 34)
 	q.pop();
 }
 

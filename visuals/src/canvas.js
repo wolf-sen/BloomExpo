@@ -58,7 +58,7 @@ q.draw = function draw() {
 	const palette = colors.get();
 
 	// Update globalSpeed: rise with drumEnv spikes, decay when quiet.
-	const targetSpeed = 5 + drumEnv * 6;
+	const targetSpeed = 5 + drumEnv * 3;
 	const smoothing = 20; // higher = snappier response
 	const alpha = 1 - Math.exp(-smoothing * deltaTime);
 	globalSpeed = globalSpeed + (targetSpeed - globalSpeed) * alpha;
@@ -93,7 +93,7 @@ q.draw = function draw() {
 	
 	//q.rect(q.width * 0.02, q.height - q.width * 0.02 - drumEnvNorm* 250, 50, drumEnvNorm*250)
 	//q.rect(q.width * 0.08, q.height - q.width * 0.02 - 250, 50, 250)
-	frame.draw([50, 50, 50, 255]);
+	frame.draw(globalSpeed);
 
 	//debugging
 	if (config.oscDebugging) {
