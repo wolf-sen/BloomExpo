@@ -36,7 +36,7 @@ function setNext() {
 	return currentIndex
 }
 
-function draw(x, y, dt = 0, speed = 1, amount = 8) {
+function draw(x, y, dt = 0, speed = 1, amount = 5) {
 	if (!q || !pedals.length) return;
 	let pedal = pedals[currentIndex];
 	const palette = colors.get()
@@ -45,11 +45,18 @@ function draw(x, y, dt = 0, speed = 1, amount = 8) {
 	let pedalRotation = 30 * Math.sin(rotation * Math.PI / 180);
 	let scale = 1 * Math.sin(rotation * Math.PI / 360);
 	q.push()
-	q.translate(q.width / 2, q.height / 2);
+	q.translate(x, y);
 	q.rotate(q.radians(rotation))
-	q.scale(2 + scale * 0.3)
-	for (let i = 0; i <= a; i++) {
-		pedal.draw(0, -100 - scale * 10, 100 + scale * 20, pedalRotation, palette.accent, palette.backgroundSecondary);
+	q.scale(4 + scale * 0.3)
+	for (let i = 1; i <= a; i++) {
+		pedal.draw(
+			0,
+			-100 - scale * 10,
+			100 + scale * 20,
+			pedalRotation,
+			palette.accent.a(0.5),
+			palette.backgroundSecondary.a(0.3)
+		);
 		q.rotate(q.radians(360 / a));
 	}
 	q.pop()

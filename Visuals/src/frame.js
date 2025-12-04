@@ -1,22 +1,21 @@
+import colors from './colors.js';
+import oscClient from './oscClient';
+
 let q = null;
+let fontLoaded = false;
 
 function setContext(qInstance) {
 	q = qInstance;
 }
 
-function colorToCss(c) {
-	if (Array.isArray(c)) {
-		const [r = 0, g = 0, b = 0, a = 255] = c;
-		return `rgba(${r},${g},${b},${a / 255})`;
-	}
-	if (typeof c === 'string') return c;
-	return 'rgba(0,0,0,1)';
-}
-
-function draw(color = [20, 20, 30, 230]) {
+function draw() {
 	if (!q) return;
+	const palette = colors.get();
+	const frameColor = palette.frame.rgb ?? [50, 50, 50];
+	const textColor = palette.text.rgb ?? [255, 255, 255];
+
 	const frameThickness = q.width * 0.02;
-	const sideBar = q.width * 0.15;
+	const sideBar = 180;
 	const topStart = q.width * 0.2;
 	const topEnd = q.width;
 	const topHeight = frameThickness;
@@ -24,21 +23,20 @@ function draw(color = [20, 20, 30, 230]) {
 	const r = frameThickness * 0.8;
 
 	const points = [
-		{ x: topStart - frameThickness, y: 0 }, // 0: top-left (keep sharp)
-		{ x: topEnd, y: 0 }, // 1: top-right (keep sharp)
-		{ x: topEnd, y: sideY }, // 2: upper sidebar corner
-		{ x: topEnd, y: sideY + sideBar }, // 3: triangle tip
-		{ x: topEnd - sideBar, y: sideY }, // 4: triangle base
-		{ x: topEnd - sideBar, y: topHeight }, // 5: lower sidebar corner
-		{ x: topStart, y: topHeight } // 6: back along top bar
+		{ x: topStart - frameThickness, y: 0 },
+		{ x: topEnd, y: 0 },
+		{ x: topEnd, y: sideY },
+		{ x: topEnd, y: sideY + sideBar },
+		{ x: topEnd - sideBar, y: sideY },
+		{ x: topEnd - sideBar, y: topHeight },
+		{ x: topStart, y: topHeight }
 	];
-	const radii = [r, 0, r, r, r, r, 0]; // smooth all inner joins, including first top corner
+	const radii = [r, 0, r, r, r, r, 0];
 
 	const ctx = q.drawingContext;
 	ctx.save();
-	ctx.fillStyle = colorToCss(color);
+	ctx.fillStyle = `rgba(${frameColor[0]},${frameColor[1]},${frameColor[2]},${(frameColor[3] ?? 255) / 255})`;
 	ctx.beginPath();
-	// start at first point
 	ctx.moveTo(points[0].x, points[0].y);
 	for (let i = 0; i < points.length; i++) {
 		const cur = points[i];
@@ -51,14 +49,36 @@ function draw(color = [20, 20, 30, 230]) {
 		}
 	}
 	ctx.closePath();
-	ctx.closePath();
 	ctx.fill();
 	ctx.restore();
+
+	q.push();
+	q.translate(q.width - sideBar + 24, sideY - 24);
+	q.rotate(q.radians(-90));
+	textDraw(textColor);
+	q.pop();
+}
+
+function textDraw(fillColor = [255, 255, 255]) {
+	if (!q) return;
+	if (!fontLoaded) {
+		q.textFont(q.loadFont('./assets/VCR_OSD.ttf'));
+		fontLoaded = true;
+	}
+	q.push();
+	q.fill(fillColor);
+	q.textAlign(q.LEFT, q.TOP);
+	q.textSize(57);
+	q.text('Bloom', 640, 0);
+	q.textSize(24);
+	q.text('Experemental \nDesign CVD01', 640, 68);
+	q.pop();
 }
 
 const frame = {
 	setContext,
-	draw
+	draw,
+	textDraw
 };
 
 export default frame;

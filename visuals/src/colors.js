@@ -4,28 +4,56 @@ const palettes = [
 		background: '#0a0a0c',
 		backgroundSecondary: '#12123cff',
 		accent: '#ff4757',
-		text: '#e6e6eb'
+		text: '#e3e3edff',
+		frame: '#611829ff'
 	},
 	{
 		name: 'Sunburst',
 		background: '#fff8e1',
 		backgroundSecondary: '#fac164ff',
 		accent: '#ff8c42',
-		text: '#282c34'
+		text: '#282c34',
+		frame: '#c0b291ff'
 	},
 	{
 		name: 'Neon Forest',
 		background: '#0c1814',
 		backgroundSecondary: '#1b7155ff',
 		accent: '#2ed573',
-		text: '#bbffd8'
+		text: '#bbffd8',
+		frame: '#1b0a21ff'
 	},
 	{
 		name: 'Lunar Tide',
 		background: '#0b0509ff',
 		backgroundSecondary: '#411827ff',
 		accent: '#407bff',
-		text: '#d3dbff'
+		text: '#d3dbff',
+		frame: '#250912ff'
+	},
+	{
+		name: 'Vapor Bloom',
+		background: '#0b0818',
+		backgroundSecondary: '#2b1c45',
+		accent: '#ff7fd3',
+		text: '#fff1ff',
+		frame: '#503950ff'
+	},
+	{
+		name: 'Electric Mango',
+		background: '#0c0f18',
+		backgroundSecondary: '#1a1f2c',
+		accent: '#ffb82f',
+		text: '#f4f7ff',
+		frame: '#422c15ff'
+	},
+	{
+		name: 'Cosmic Lime',
+		background: '#0f0a1a',
+		backgroundSecondary: '#25143b',
+		accent: '#cbff3a',
+		text: '#f1f7ff',
+		frame: '#1b172fff'
 	}
 ];
 
@@ -50,17 +78,40 @@ function hexToRgbArray(hex) {
 	return [(int >> 16) & 255, (int >> 8) & 255, int & 255];
 }
 
+function colorObject(rgbArray, hex) {
+	const [r = 0, g = 0, b = 0] = rgbArray;
+	return {
+		r,
+		g,
+		b,
+		rgb: [r, g, b],
+		hex,
+		a(opacity = 1) {
+			const a = Math.max(0, Math.min(1, opacity));
+			return [r, g, b, Math.round(a * 255)];
+		}
+	};
+}
+
 function formatPalette(palette) {
+	const bgHex = normalizeHex(palette.background);
+	const bg2Hex = normalizeHex(palette.backgroundSecondary);
+	const accentHex = normalizeHex(palette.accent);
+	const textHex = normalizeHex(palette.text);
+	const frameHex = normalizeHex(palette.frame);
+
 	return {
 		name: palette.name,
-		backgroundSecondary: hexToRgbArray(palette.backgroundSecondary),
-		background: hexToRgbArray(palette.background),
-		accent: hexToRgbArray(palette.accent),
-		text: hexToRgbArray(palette.text),
+		backgroundSecondary: colorObject(hexToRgbArray(bg2Hex), bg2Hex),
+		background: colorObject(hexToRgbArray(bgHex), bgHex),
+		accent: colorObject(hexToRgbArray(accentHex), accentHex),
+		text: colorObject(hexToRgbArray(textHex), textHex),
+		frame: colorObject(hexToRgbArray(frameHex), frameHex),
 		hex: {
-			background: normalizeHex(palette.background),
-			accent: normalizeHex(palette.accent),
-			text: normalizeHex(palette.text)
+			background: bgHex,
+			accent: accentHex,
+			text: textHex,
+			frame: frameHex
 		}
 	};
 }

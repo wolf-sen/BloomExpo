@@ -17,8 +17,10 @@ function draw(x, y, size = 140, rotation = 0, colorTop = [245, 230, 220], colorB
 	const ctx = q.drawingContext;
 	ctx.save();
 	const gradient = ctx.createLinearGradient(0, 90, 0, -90);
-	gradient.addColorStop(0, `rgb(${colorTop[0]},${colorTop[1]},${colorTop[2]})`);
-	gradient.addColorStop(1, `rgb(${colorBottom[0]},${colorBottom[1]},${colorBottom[2]})`);
+	const topA = (colorTop[3] ?? 255) / 255;
+	const bottomA = (colorBottom[3] ?? 255) / 255;
+	gradient.addColorStop(0, `rgba(${colorTop[0]},${colorTop[1]},${colorTop[2]},${topA})`);
+	gradient.addColorStop(1, `rgba(${colorBottom[0]},${colorBottom[1]},${colorBottom[2]},${bottomA})`);
 	ctx.fillStyle = gradient;
 
 	const path = new Path2D();

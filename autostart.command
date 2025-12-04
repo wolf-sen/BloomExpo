@@ -3,7 +3,7 @@ set -euo pipefail
 
 #Variables
 APP="Bloom"
-VERSION="1.0"
+VERSION="1.1"
 AUTHOR="Max Wolf"
 CONTACT="max.wolf@stud.hshl.de"
 TIMEOUT=10
