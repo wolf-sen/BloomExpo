@@ -21,7 +21,7 @@ function draw(iSpeed) {
 	const topStart = q.width * 0.2;
 	const topEnd = q.width;
 	const topHeight = frameThickness;
-	const sideY = q.height * 0.45;
+	const sideY = q.height * 0.35;
 	const r = frameThickness * 0.8;
 	
 	const points = [
@@ -55,7 +55,7 @@ function draw(iSpeed) {
 	ctx.restore();
 	
 	q.push();
-	q.translate(q.width - sideBar + 24, sideY - 24);
+	q.translate(q.width - sideBar + 24, sideY - 24 + 190);
 	q.rotate(q.radians(-90));
 	textDraw(textColor);
 	q.pop();
