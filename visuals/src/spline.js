@@ -3,7 +3,7 @@ let buffer = null;
 let colorLayer = null;
 let time = 0;
 const agents = [];
-const AGENT_COUNT = 2;
+const AGENT_COUNT = 3;
 const FADE_AMOUNT = 0.995;
 const MODES = ['orbit', 'lissajous', 'spiral', 'ping', 'rose'];
 let modePreference = 'random';
@@ -207,6 +207,7 @@ function reset() {
 	buffer?.clear();
 	colorLayer?.clear();
 	initAgents();
+	
 }
 
 const spline = {
