@@ -4,7 +4,7 @@ let colorLayer = null;
 let time = 0;
 const agents = [];
 const AGENT_COUNT = 3;
-const FADE_AMOUNT = 0.995;
+const FADE_AMOUNT = 0.99;
 const MODES = ['orbit', 'lissajous', 'spiral', 'ping', 'rose'];
 let modePreference = 'random';
 
@@ -100,6 +100,9 @@ function draw(x = 0, y = 0, color = [255, 255, 255, 255], ammount = 6) {
 	const copies = Math.max(1, Math.floor(ammount ?? 1));
 	const [r = 255, g = 255, b = 255, a = 255] = color;
 	const layer = colorLayer || buffer;
+	const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+	const preferScreen = brightness < 180;
+	const blendMode = preferScreen ? q?.SCREEN : q?.MULTIPLY;
 
 	// recolor the buffer into colorLayer so each frame updates even when tint stays the same
 	if (colorLayer) {
@@ -115,7 +118,11 @@ function draw(x = 0, y = 0, color = [255, 255, 255, 255], ammount = 6) {
 
 	q.push();
 	q.translate(x, y);
-	q.blendMode?.(q.ADD);
+	if (blendMode) {
+		q.blendMode(blendMode);
+	} else {
+		q.blendMode?.(q.ADD);
+	}
 	for (let i = 0; i < copies; i++) {
 		q.push();
 		q.rotate(q.radians((360 / copies) * i));
