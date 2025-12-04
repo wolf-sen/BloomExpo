@@ -5,7 +5,6 @@ const config = {
 	frameLimit: 120,
 	backgroundGlowIntensity: 2,
 	pedalScale: 2.0,
-	pedalRasterSize: 1024
 };
 
 // Named exports remain available, but prefer the default object (config.wsPort, etc.)

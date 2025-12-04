@@ -74,7 +74,7 @@ function textDraw(fillColor = [255, 255, 255]) {
 	q.textSize(57);
 	q.text('Bloom', 640, 0);
 	q.textSize(24);
-	q.text('Experemental \nDesign CVD01', 640, 68);
+	q.text('Experimental \nDesign CVD01', 640, 68);
 	q.text("FR:" + Math.floor(q.frameRate()), 200, 0);
 	q.text("Env:" + Math.floor(oscClient.getState().cv.drumEnv), 200, 34);
 	q.text("SPD:" + Math.floor(speed), 200, 68);

@@ -5,6 +5,7 @@ import background from './background.js';
 import blossom from './blossom.js';
 import frame from './frame.js';
 import oscClient from './oscClient.js';
+import spline from './spline.js';
 
 // Timing / animation state
 const q = new window.Q5('global');
@@ -13,7 +14,10 @@ let deltaTime = 0;
 let globalSpeed = 0;
 let count = 0;
 let activity = false;
+let activetime = 0;
 let amount = 5;
+let splineBoost = 0;
+let splineSpeed = 1;
 
 function clamp01(value) {
 	if (!Number.isFinite(value)) return 0;
@@ -36,6 +40,7 @@ q.setup = function setup() {
 	background.setContext(q);
 	blossom.setContext(q);
 	frame.setContext(q);
+	spline.setContext(q);
 };
 
 q.windowResized = function windowResized() {
@@ -64,7 +69,8 @@ q.draw = function draw() {
 	globalSpeed = globalSpeed + (targetSpeed - globalSpeed) * alpha;
 
 	//process Notes
-	if (oscClient.noteTriggered('main', 36)) {
+	const colorNotes = [36, 40, 44, 48];
+	if (colorNotes.some((n) => oscClient.noteTriggered('main', n))) {
 		colors.setRandom();
 		activity = true;
 	}
@@ -72,13 +78,37 @@ q.draw = function draw() {
 		blossom.setRandom();
 		activity = true;
 	}
+	for (let n = 84; n <= 99; n++) {
+		if (oscClient.noteTriggered('main', n)) {
+			blossom.setRandom();
+			activity = true;
+			break;
+		}
+	}
+	for (let n = 52; n <= 67; n++) {
+		if (oscClient.noteTriggered('main', n)) {
+			spline.setModeRandom();
+			break;
+		}
+	}
+	for (let n = 68; n <= 99; n++) {
+		if (oscClient.noteTriggered('main', n)) {
+			splineBoost = Math.min(splineBoost + 5, 20);
+			break;
+		}
+	}
 	if (oscClient.noteTriggered('utility', 100)) {
 		if (activity) {
+			if (activetime % 2){
+				spline.reset();
+			}
+			activetime += 1;
 			activity = false;
 		} else {
 			blossom.setRandom();
 			if (count === 1) {
 				colors.setRandom();
+				spline.reset();
 				amount = Math.floor(q.map(Math.random(), 0, 1, 3, 12));
 				count = 0;
 			} else {
@@ -87,9 +117,22 @@ q.draw = function draw() {
 		}
 	}
 
+	// Update spline speed separately (decays over time, boosted by note hits)
+	const splineBase = 1;
+	const boostDecayRate = 3; // how quickly boosts fall back
+	const boostAlpha = 1 - Math.exp(-boostDecayRate * deltaTime);
+	splineBoost = splineBoost + (0 - splineBoost) * boostAlpha;
+
+	const splineTarget = splineBase + splineBoost;
+	const splineSmoothing = 24; // faster response for stronger acceleration
+	const splineAlpha = 1 - Math.exp(-splineSmoothing * deltaTime);
+	splineSpeed = splineSpeed + (splineTarget - splineSpeed) * splineAlpha;
+
 	//draw image
 	background.draw(palette.background.rgb, palette.backgroundSecondary.rgb, drumEnvNorm * config.backgroundGlowIntensity);
 	blossom.draw(q.width / 2 - 25, q.height / 2, deltaTime, globalSpeed, amount);
+	spline.update(deltaTime, splineSpeed * 15);
+	spline.draw(q.width / 2 - 25, q.height / 2, palette.accent.a(1), 3);
 	
 	//q.rect(q.width * 0.02, q.height - q.width * 0.02 - drumEnvNorm* 250, 50, drumEnvNorm*250)
 	//q.rect(q.width * 0.08, q.height - q.width * 0.02 - 250, 50, 250)

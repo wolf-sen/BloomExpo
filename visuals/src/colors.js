@@ -1,59 +1,156 @@
 const palettes = [
 	{
 		name: 'Carbon Pulse',
-		background: '#0a0a0c',
-		backgroundSecondary: '#12123cff',
-		accent: '#ff4757',
-		text: '#e3e3edff',
-		frame: '#611829ff'
+		background: '#040414ff',
+		backgroundSecondary: '#2c2c84ff',
+		accent: '#ff214aff',
+		text: '#9f9fdcff',
+		frame: '#362959ff'
 	},
 	{
 		name: 'Sunburst',
-		background: '#fff8e1',
-		backgroundSecondary: '#fac164ff',
-		accent: '#ff8c42',
-		text: '#282c34',
-		frame: '#c0b291ff'
-	},
+		background: '#fff8e9ff',
+		backgroundSecondary: '#f39645ff',
+		accent: '#ff481fff',
+		text: '#661a09ff',
+		frame: '#f4d3acff'
+	}, 
 	{
 		name: 'Neon Forest',
-		background: '#0c1814',
-		backgroundSecondary: '#1b7155ff',
-		accent: '#2ed573',
-		text: '#bbffd8',
-		frame: '#1b0a21ff'
-	},
+		background: '#0c0219ff',
+		backgroundSecondary: '#0c492eff',
+		accent: '#7bffb4ff',
+		text: '#a1ffcaff',
+		frame: '#22052dff'
+	}, 
 	{
 		name: 'Lunar Tide',
 		background: '#0b0509ff',
-		backgroundSecondary: '#411827ff',
-		accent: '#407bff',
+		backgroundSecondary: '#82163eff',
+		accent: '#2831b3ff',
 		text: '#d3dbff',
-		frame: '#250912ff'
-	},
+		frame: '#471626ff'
+	}, 
 	{
 		name: 'Vapor Bloom',
-		background: '#0b0818',
+		background: '#120a1eff',
 		backgroundSecondary: '#2b1c45',
-		accent: '#ff7fd3',
-		text: '#fff1ff',
-		frame: '#503950ff'
-	},
+		accent: '#b3358bff',
+		text: '#bf88bfff',
+		frame: '#3b183bff'
+	}, 
 	{
 		name: 'Electric Mango',
-		background: '#0c0f18',
+		background: '#0b0e01ff',
 		backgroundSecondary: '#1a1f2c',
-		accent: '#ffb82f',
-		text: '#f4f7ff',
-		frame: '#422c15ff'
-	},
+		accent: '#ee811bff',
+		text: '#161808ff',
+		frame: '#724c22ff'
+	}, 
 	{
 		name: 'Cosmic Lime',
 		background: '#0f0a1a',
-		backgroundSecondary: '#25143b',
-		accent: '#cbff3a',
-		text: '#f1f7ff',
+		backgroundSecondary: '#2f174fff',
+		accent: '#c4ff23ff',
+		text: '#7e90a8ff',
 		frame: '#1b172fff'
+	},
+	{
+		
+		name: 'Nebula Cyan',
+		background: '#0a0f1d',
+		backgroundSecondary: '#13263f',
+		accent: '#3affe9',
+		text: '#b9d4dcff',
+		frame: '#131b2f'
+	}, 
+	{
+		name: 'Quantum Amber',
+		background: '#0e0a12',
+		backgroundSecondary: '#2a1f25',
+		accent: '#ffbf3a',
+		text: '#fff7e7',
+		frame: '#1d151e'
+	},
+	{
+		name: 'Hypernova Blue',
+		background: '#050a1aff',
+		backgroundSecondary: '#0f1d3f',
+		accent: '#ffec16ff',
+		text: '#d8e9bfff',
+		frame: '#0d162f'
+	},
+	{
+		name: 'Acid Orchid',
+		background: '#120a1d',
+		backgroundSecondary: '#2e1a4b',
+		accent: '#d3ff0d',
+		text: '#f7ecff',
+		frame: '#201433'
+	},
+	{
+		name: 'Paradox Tealberry',
+		background: '#0a1414',
+		backgroundSecondary: '#182d2f',
+		accent: '#ff3aad',   
+		text: '#f5fcfa',
+		frame: '#132525'
+	},
+	{
+		name: 'Solar Glacier',
+		background: '#f4fbff',         
+		backgroundSecondary: '#d289efff', 
+		accent: '#00e8ff',  
+		text: '#0d1b26',
+		frame: '#b2c5e3ff'
+	},
+	{
+		name: 'Chromatic Drift',
+		background: '#c9e3d9ff',
+		backgroundSecondary: '#8b70cbff', 
+		accent: '#9ae537ff',              
+		text: '#c9e3d9ff',
+		frame: '#604e72ff'
+	},
+	{
+		name: 'Ultraviolet Milk',
+		background: '#e9ecd9ff',
+		backgroundSecondary: '#c3c66eff',
+		accent: '#6b00ff',              
+		text: '#1b0d2a',
+		frame: '#d5c5aeff'
+	},
+	{
+		name: 'Venom Caramel',
+		background: '#f7ebdcff',         
+		backgroundSecondary: '#ffe0a1', 
+		accent: '#26a861ff',           
+		text: '#213e21ff',
+		frame: '#c2d291ff'
+	},
+	{
+		name: 'AHOI Captain',
+		background: '#162841ff',          
+		backgroundSecondary: '#3991ccff', 
+		accent: '#ff9a41ff',              
+		text: '#274269ff',
+		frame: '#959facff'
+	},
+	{
+		name: 'Morgendämmerung',
+		background: '#1d060dff',          
+		backgroundSecondary: '#8b5151ff', 
+		accent: '#ff9e53ff',              
+		text: '#1d060dff',
+		frame: '#dda97cff'
+	},
+	{
+		name: 'Old and Charming',
+		background: '#1a1718ff',          
+		backgroundSecondary: '#522f43ff', 
+		accent: '#eea2d1ff',              
+		text: '#1d060dff',
+		frame: '#947e8fff'
 	}
 ];
 
@@ -99,7 +196,7 @@ function formatPalette(palette) {
 	const accentHex = normalizeHex(palette.accent);
 	const textHex = normalizeHex(palette.text);
 	const frameHex = normalizeHex(palette.frame);
-
+	
 	return {
 		name: palette.name,
 		backgroundSecondary: colorObject(hexToRgbArray(bg2Hex), bg2Hex),
