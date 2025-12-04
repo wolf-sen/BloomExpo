@@ -87,6 +87,7 @@ q.draw = function draw() {
 	}
 	for (let n = 52; n <= 67; n++) {
 		if (oscClient.noteTriggered('main', n)) {
+			spline.reset()
 			spline.setModeRandom();
 			break;
 		}
